@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:59:22 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/16 13:08:38 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/17 18:48:04 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,15 @@
 //############################//
 //        ARROWS              //
 //############################//
-# define MOVE_LEFT 65363
-# define MOVE_RIGHT 65361
-# define MOVE_UP 65362
-# define MOVE_DOWN 65364
-# define RESET	114
-# define ESC 65307
+# define MOVE_LEFT 124
+# define MOVE_RIGHT 123
+# define MOVE_UP 126
+# define MOVE_DOWN 125
+# define RESET	15
+# define ESC 53
+# define PLUS 69
+# define MINUS 78
+
 typedef struct s_var
 {
 	void	*mlx;
@@ -66,14 +69,14 @@ typedef struct 	s_pixel_grid
 	double		y;
 }				t_pixel_grid;
 
-typedef	struct	s_z
+typedef	struct	s_equation
 {
 	double		r;
 	double		i;
-	int			n;
-	int		max_iter;
 	double		tmp;
-}				t_z;
+	int			n;
+}				t_equation;
+
 typedef struct s_c_plan
 {
 	double	x;
@@ -86,12 +89,12 @@ typedef struct s_c_plan
 	double	old_y;
 }	t_c_plan;
 
-typedef struct s_julia
+typedef struct	s_julia
 {
 	double	cr;
 	double	ci;
-}		t_julia;
-
+}				t_julia;
+//How much should I weigh for my height and age?
 typedef struct		s_img
 {
 	void			*addr;
@@ -99,11 +102,12 @@ typedef struct		s_img
 	int				line_len;
 	int				bpp;
 	int				endian;
-	double		h;
-	double		w;
-	int		fractal;
+	int				h;
+	int				w;
+	int				fractal;
+	int				nmax;
 	t_var			*var;
-	t_julia			*c;
+	t_julia			*julia;
 	t_c_plan		*plan;
 }					t_img;
 
@@ -111,8 +115,9 @@ int		create_trgb(int t, int r, int g, int b);
 double	str2double(char *s);
 void	mlx_pixel_put_in_img(t_img *img, int x, int y, int color);
 void	mlx_create_window(t_var *var, char *title);
-void	mlx_create_image(t_var *var, t_img *img, t_julia *c, t_c_plan *plan);
+void	mlx_create_image(t_var *var, t_img *img, t_julia *j, t_c_plan *plan);
 void	display_options(void);
 void	display_mandelbrot_fractal(t_img *img);
+void	display_burning_ship_fractal(t_img *img);
 void    display_julia_fractal(t_img *img);
 #endif

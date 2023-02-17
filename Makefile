@@ -6,7 +6,7 @@
 #    By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/28 21:14:18 by oezzaou           #+#    #+#              #
-#    Updated: 2023/02/11 11:45:13 by oezzaou          ###   ########.fr        #
+#    Updated: 2023/02/17 19:50:10 by oezzaou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ OBJDIR = obj
 SRCDIR = src
 INC = -I include/ -I ft_printf/include -I ft_printf/libft
 MLX_LIB = include/libmlx.a
-SRCS := fractol fractol_menu_options mandelbrot_fractal julia_fractal fractol_utils
+SRCS := fractol fractol_menu_options mandelbrot_fractal julia_fractal fractol_utils burning_ship_fractal
 OBJS := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(SRCS)))
 SRCS := $(addprefix $(SRCDIR)/, $(addsuffix .c, $(SRCS)))
 LIBFTPRINTF = ft_printf/libftprintf.a
@@ -38,7 +38,7 @@ LIBFTPRINTF = ft_printf/libftprintf.a
 all: $(OBJDIR) $(NAME)
 
 $(NAME): $(OBJS) $(LIBFTPRINTF) 
-	@$(CC) $(CFLAGS) $(INC) $^ -o $@ $(MLX_LINUX_FLAGS)
+	@$(CC) $(CFLAGS) $(INC) $^ -o $@ $(MLX_FLAGS)
 	@printf "\n%10s===========%10s\n <<<<<<<<<< FRACTOL >>>>>>>>>>\n" " " " "
 	@printf "%10s===========%10s\n" " " " "
 
