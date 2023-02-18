@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:01:59 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/17 20:26:56 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/18 20:31:56 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
@@ -21,86 +21,100 @@ int	on_press_button(int code, t_img *img)
 	if (code == ESC)
 		close_window(img);
 	if (code == PLUS || code == MINUS)
+		img->nmax += 5 * ((code == PLUS) - (code == MINUS));
+	if (code == RESET)
+			mlx_create_image(img->var, img, img->julia, img->p);
+	if (code >= RIGHT && code <= UP)
 	{
-		img->nmax += 10 * ((code == PLUS) - (code == MINUS));
-		ft_printf("Iterations => %30d\n", img->nmax);
+		img->p->dx += (img->p->a / 10.0) * ((code == RIGHT) - (code == LEFT));
+		img->p->dy += (img->p->b / 10.0) * ((code == DOWN) - (code == UP));
 	}
-	if (code == RESET || (code >= MOVE_RIGHT && code <= MOVE_UP))
-	{
-		if (code == RESET)
-			mlx_create_image(img->var, img, img->julia, img->plan);
-		img->plan->dx += (img->plan->x / 10.0) * ((code == MOVE_LEFT) - (code == MOVE_RIGHT));
-		img->plan->dy += (img->plan->y / 10.0) * ((code == MOVE_UP) - (code == MOVE_DOWN));
-	}
-	if (img->fractal == MANDELBROT)
-			display_mandelbrot_fractal(img);
-	if (img->fractal == JULIASET)
-			display_julia_fractal(img);
-	if (img->fractal == 3)
-			display_burning_ship_fractal(img);
+	display_fractal(img, 0, 0);
 	return (0);
 }
 
 // MAKE ANY POINT YOU CHOSE AS THE REFERENCE POINT
 int	zoom(int code, int x, int y, t_img *img)
 {
-	int	i;
-	double	new_x, new_y;
+	double	new_xc;
+	double	new_yc;
 
-	if (!(x == img->plan->m_x && y == img->plan->m_y))
+	if (!(x == img->p->m_x && y == img->p->m_y))
 	{
-			img->plan->old_x = -img->plan->y + (((double) x) * img->plan->x / img->w) + img->plan->dx;
-			img->plan->old_y = img->plan->y - (((double) y) * img->plan->x / img->h) + img->plan->dy;
+			img->p->old_xc = -img->p->b + (x * img->p->a / 1200) + img->p->dx;
+			img->p->old_yc = img->p->b - (y * img->p->a / 1200) + img->p->dy;
 	}
-	img->plan->m_y = y;
-	img->plan->m_x = x;
+	img->p->m_x = x;
+	img->p->m_y = y;
 	if (code == SCROLL_DOWN || code == SCROLL_UP)
 	{
-		img->plan->x /= 1.3 * (code == 4) +  (1 / 1.4) * (code == 5);
-		img->plan->y /= 1.3 * (code == 4) + (1 / 1.4) * (code == 5);
-		new_x = -img->plan->y + (((double) x) * img->plan->x / img->w);
-		new_y = img->plan->y - (((double) y) * img->plan->x / img->h);
-		img->plan->dx = img->plan->old_x - new_x;
-		img->plan->dy = img->plan->old_y - new_y;
+		img->p->a /= 1.3 * (code == 4) +  (1 / 1.4) * (code == 5);
+		img->p->b /= 1.3 * (code == 4) + (1 / 1.4) * (code == 5);
+		new_xc = -img->p->b + (((double) x) * img->p->a / img->w);
+		new_yc = img->p->b - (((double) y) * img->p->a / img->h);
+		img->p->dx = img->p->old_xc - new_xc;
+		img->p->dy = img->p->old_yc - new_yc;
 	}
-	if (img->fractal == MANDELBROT)
-			display_mandelbrot_fractal(img);
-	if (img->fractal == JULIASET)
-			display_julia_fractal(img);
-	if (img->fractal == 3)
-		display_burning_ship_fractal(img);
+	display_fractal(img, 0, 0);
 	return (0);
 }
 
 int	display_fractal(t_img *img, int ac, char **av)
 {
-	if (ac == 2 && str2double(av[1]) == MANDELBROT)
+	if ((ac == 2 && str2double(av[1]) == MANDELBROT)
+			|| (img->fractal == MANDELBROT))
 		return (display_mandelbrot_fractal(img), MANDELBROT);
-	if (ac == 4 && str2double(av[1]) == JULIASET)
+	if ((ac == 4 && str2double(av[1]) == JULIASET)
+			|| (img->fractal = JULIASET))
 	{
-		img->julia->cr = str2double(av[2]);
-		img->julia->ci = str2double(av[3]);
+		if (ac != 0)
+		{
+			img->julia->cr = str2double(av[2]);
+			img->julia->ci = str2double(av[3]);
+		}
 		return (display_julia_fractal(img), JULIASET);
 	}
+	if ((ac == 2 && str2double(av[1]) == BURNING_SHIP)
+			|| (img->fractal == BURNING_SHIP))
+		return (display_burning_ship_fractal(img), BURNING_SHIP);
 	return (0);
 }
 int	main(int ac, char **av)
 {
 	t_var			var;
 	t_img			img;
+	t_complex_plan	p;
 	t_julia			julia;
-	t_c_plan		plan;
 	
-	mlx_create_window(&var, "FRACTAL");
-	mlx_create_image(&var, &img, &julia, &plan);
+	mlx_create_window(&var);
+	mlx_create_image(&var, &img, &julia, &p);
 	if (!display_fractal(&img, ac, av))
 		return (display_options(), EXIT_SUCCESS);
-//	display_burning_ship_fractal(&img);
 	mlx_key_hook(var.win, on_press_button, &img);
 	mlx_mouse_hook(img.var->win, zoom, &img);
 	mlx_hook(var.win, 17, 0, close_window, &img);
 	mlx_loop(var.mlx);
 	return (EXIT_SUCCESS);
+}
+
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+int	create_color(int iter)
+{
+	if (iter == 1)
+		return (create_trgb(0, 255, 0, 0));
+	if (iter == 2)
+		return (create_trgb(0, 255, 100, 0));
+	if (iter == 3)
+		return (create_trgb(0, 0, 255, 0));
+	if (iter == 4)
+		return (create_trgb(0, 0, 100, 50));
+	if (iter == 5)
+		return (create_trgb(0, 0, 100, 25));
+	return (create_trgb(0, 0, 255 - iter, iter));
 }
 
 // EACH POINT IS A COMPLEX NUMBER : I CHECK EVERY PIXEL USING Zn = Zn+1 ^ 2 + C : IF NOT DEVERGE UNDER ITERATION OF 0 THEN THIS POINT FROM MANDELBROT SET ?
