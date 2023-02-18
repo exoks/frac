@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:01:59 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/18 20:31:56 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/18 22:51:59 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
@@ -39,17 +39,12 @@ int	zoom(int code, int x, int y, t_img *img)
 	double	new_xc;
 	double	new_yc;
 
-	if (!(x == img->p->m_x && y == img->p->m_y))
-	{
-			img->p->old_xc = -img->p->b + (x * img->p->a / 1200) + img->p->dx;
-			img->p->old_yc = img->p->b - (y * img->p->a / 1200) + img->p->dy;
-	}
-	img->p->m_x = x;
-	img->p->m_y = y;
+	img->p->old_xc = -img->p->b + (x * img->p->a / 1200) + img->p->dx;
+	img->p->old_yc = img->p->b - (y * img->p->a / 1200) + img->p->dy;
 	if (code == SCROLL_DOWN || code == SCROLL_UP)
 	{
 		img->p->a /= 1.3 * (code == 4) +  (1 / 1.4) * (code == 5);
-		img->p->b /= 1.3 * (code == 4) + (1 / 1.4) * (code == 5);
+		img->p->b /= 1.3 * (code == 4) + (1 / 1.3) * (code == 5);
 		new_xc = -img->p->b + (((double) x) * img->p->a / img->w);
 		new_yc = img->p->b - (((double) y) * img->p->a / img->h);
 		img->p->dx = img->p->old_xc - new_xc;
@@ -64,6 +59,9 @@ int	display_fractal(t_img *img, int ac, char **av)
 	if ((ac == 2 && str2double(av[1]) == MANDELBROT)
 			|| (img->fractal == MANDELBROT))
 		return (display_mandelbrot_fractal(img), MANDELBROT);
+	if ((ac == 2 && str2double(av[1]) == BURNING_SHIP)
+			|| (img->fractal == BURNING_SHIP))
+		return (display_burning_ship_fractal(img), 3);
 	if ((ac == 4 && str2double(av[1]) == JULIASET)
 			|| (img->fractal = JULIASET))
 	{
@@ -74,9 +72,6 @@ int	display_fractal(t_img *img, int ac, char **av)
 		}
 		return (display_julia_fractal(img), JULIASET);
 	}
-	if ((ac == 2 && str2double(av[1]) == BURNING_SHIP)
-			|| (img->fractal == BURNING_SHIP))
-		return (display_burning_ship_fractal(img), BURNING_SHIP);
 	return (0);
 }
 int	main(int ac, char **av)
@@ -117,8 +112,3 @@ int	create_color(int iter)
 	return (create_trgb(0, 0, 255 - iter, iter));
 }
 
-// EACH POINT IS A COMPLEX NUMBER : I CHECK EVERY PIXEL USING Zn = Zn+1 ^ 2 + C : IF NOT DEVERGE UNDER ITERATION OF 0 THEN THIS POINT FROM MANDELBROT SET ?
-// HOW CAN I GET THE INFORMATION OF EACH PIXEL
-//  RADIUS : CHO3A3 OF MANDEL BROT SET IS < 2 : SO IF THE PIXEL IS NOT DEVERGE AND (LMANDAM DYALHA) NOT >= 2 THEN THIS POINT IS A MANDEL BROT SET
-//
-// FIRST C REPRESENT EACH POINT OF MY PIXEL GRADE => I HAVE TO CHECK EACH PIXEL AND SEE IF DEVERGE OR NOT DEVERGE => THIS PART DETERMINE IF I HAVE TO DRAW THIS POINT OR NOT

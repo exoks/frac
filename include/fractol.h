@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:59:22 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/18 19:33:41 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/18 22:39:51 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ typedef	struct	s_complex_plan
 	double		yc;
 	double		a;
 	double		b;
-	double		m_x;
-	double		m_y;
 	double		old_xc;
 	double		old_yc;
 	double		dx;

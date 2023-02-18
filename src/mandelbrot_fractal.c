@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:41:35 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/18 19:11:49 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/18 22:36:55 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 # include "fractol.h"
@@ -19,6 +19,11 @@ void	mlx_put_max_iteration(t_img *img)
 	tmp = ft_itoa(img->nmax);
 	iter = ft_strjoin(ITERATIONS, tmp);
 	mlx_string_put(img->var->mlx, img->var->win, 10, 1170, 255, iter);
+	mlx_string_put(img->var->mlx, img->var->win, 10, 30, 255, "Usage:");
+	mlx_string_put(img->var->mlx, img->var->win, 20, 90, 255, "Arows       : moving fractal");
+	mlx_string_put(img->var->mlx, img->var->win, 20, 110, 255, "Mouse wheel : zoom in && zoom out");
+	mlx_string_put(img->var->mlx, img->var->win, 20, 70, 255, "R           : reset");
+	mlx_string_put(img->var->mlx, img->var->win, 20, 50, 255, "ESC         : exit");
 	free(tmp);
 	free(iter);
 }
@@ -48,7 +53,7 @@ void	display_mandelbrot_fractal(t_img *img)
 				z.i = 2 * z.i * z.tmp + img->p->yc;
 			}
 			if (z.n != img->nmax)
-				mlx_pixel_put_in_img(img, grid.x, grid.y,((255 - z.n) << 16));
+				mlx_pixel_put_in_img(img, grid.x, grid.y, z.n);
 			else
 				mlx_pixel_put_in_img(img, grid.x, grid.y, 0);
 		}
