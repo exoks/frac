@@ -11,18 +11,12 @@
 /* ************************************************************************** */
 #include "fractol.h"
 
-double	ft_power(double base, double power)
-{
-	if (power > 0)
-		return (base * ft_power(base, --power));
-	return (1);
-}
-
 double	str2double(char *s)
 {
 	double	p1;
 	double	p2;
 	char	*tmp;
+	size_t	i;
 
 	if (!s)
 		return (0);
@@ -30,7 +24,10 @@ double	str2double(char *s)
 	p1 = p1 * ((*s != '-') - (*s == '-')); 
 	tmp = ft_strchr(s, '.');
 	if (tmp && ++tmp)
-		p2 = (double) ft_atoi(tmp) / ft_power(10, ft_strlen(tmp));
+		p2 = (double) ft_atoi(tmp);
+	i = -1;
+	while (++i < ft_strlen(tmp))
+		p2 /= 10.0;
 	return ((p1 + p2) * ((*s != '-') - (*s == '-')));
 }
 
@@ -43,17 +40,13 @@ void	mlx_create_window(t_var *var)
 void	mlx_create_image(t_var *var, t_img *img, t_julia *c, t_complex_plan *p)
 {
 	img->julia = c;
+	
 	// Zn+1 = Zn^2 + C
 	img->nmax = 255;
 
 	// DEMANSION
 	img->h = 1200;
 	img->w = 1200;
-
-	// MOUSE POSITION
-//	p->m_x = 600;
-//	p->m_y = 600;
-	
 
 	// DX && DY
 	p->dx = 0;

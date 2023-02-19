@@ -14,10 +14,11 @@
 #           Compiler               #
 ####################################
 CC = gcc
-CFLAGS = 
-# THIS FLAGS USED FROM THE LINKDER IT'S MUST BE USED WHEN LINKING OBJECTS
+CFLAGS = -Wall -Wextra -Werror
+
 MLX_FLAGS = -lmlx -framework OpenGL -framework AppKit
 MLX_LINUX_FLAGS = -lmlx -lXext -lX11 -lz -lm
+
 ####################################
 #              SRCS                #
 ####################################
@@ -25,8 +26,7 @@ NAME = fractol
 OBJDIR = obj
 SRCDIR = src
 INC = -I include/ -I ft_printf/include -I ft_printf/libft
-MLX_LIB = include/libmlx.a
-SRCS := fractol fractol_menu_options mandelbrot_fractal julia_fractal fractol_utils burning_ship_fractal
+SRCS := burning_ship_fractal fractol_events fractol_utils fractol_menu fractals fractol
 OBJS := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(SRCS)))
 SRCS := $(addprefix $(SRCDIR)/, $(addsuffix .c, $(SRCS)))
 LIBFTPRINTF = ft_printf/libftprintf.a
@@ -38,7 +38,7 @@ LIBFTPRINTF = ft_printf/libftprintf.a
 all: $(OBJDIR) $(NAME)
 
 $(NAME): $(OBJS) $(LIBFTPRINTF) 
-	@$(CC) $(CFLAGS) $(INC) $^ -o $@ $(MLX_FLAGS)
+	@$(CC) $(CFLAGS) $(INC) $^ -o $@ $(MLX_LINUX_FLAGS)
 	@printf "\n%10s===========%10s\n <<<<<<<<<< FRACTOL >>>>>>>>>>\n" " " " "
 	@printf "%10s===========%10s\n" " " " "
 
