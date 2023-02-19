@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 19:22:41 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/18 18:58:03 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/19 14:52:47 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
@@ -26,7 +26,7 @@ double	str2double(char *s)
 	if (tmp && ++tmp)
 		p2 = (double) ft_atoi(tmp);
 	i = -1;
-	while (++i < ft_strlen(tmp))
+	while (tmp && ++i < ft_strlen(tmp))
 		p2 /= 10.0;
 	return ((p1 + p2) * ((*s != '-') - (*s == '-')));
 }
@@ -34,6 +34,8 @@ double	str2double(char *s)
 void	mlx_create_window(t_var *var)
 {
 	var->mlx = mlx_init();
+	if (!var->mlx)
+		exit(EXIT_FAILURE);
 	var->win = mlx_new_window(var->mlx, 1200, 1200, "FRACTAL");
 }
 
@@ -42,7 +44,7 @@ void	mlx_create_image(t_var *var, t_img *img, t_julia *c, t_complex_plan *p)
 	img->julia = c;
 	
 	// Zn+1 = Zn^2 + C
-	img->nmax = 255;
+	img->nmax = 55;
 
 	// DEMANSION
 	img->h = 1200;

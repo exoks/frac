@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:59:22 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/18 22:39:51 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/19 22:12:06 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,20 @@
 # define ITERATIONS "Iterations : "
 
 //############################//
+//#         COLORS           #//
+//############################//
+# define RED 0xFF0000
+# define YELLOW 0xFFFF00
+# define CIAN 0x51F2F2
+# define BLUE 0x0000FF
+# define H 0xE619F9
+
+//############################//
 //#         FRACTALS         #//
 //############################//
-# define MANDELBROT 1
-# define JULIASET 2
-# define BURNING_SHIP 3
+# define MANDELBROT 1.0
+# define JULIASET 2.0
+# define BURNING_SHIP 3.0
 
 //############################//
 //#        MOUSE HOOK        #//
@@ -59,6 +68,10 @@
 # define ESC 53
 # define PLUS 69
 # define MINUS 78
+# define J 38
+# define K 40
+# define F 3
+# define D 2
 
 typedef struct s_var
 {
@@ -66,6 +79,14 @@ typedef struct s_var
 	void	*win;
 }				t_var;
 
+typedef struct s_color
+{
+	int	r;
+	int	y;
+	int	c;
+	int	b;
+	int	h;
+}				t_color;
 //############################//
 //#       COMPLEX PLAN       #//
 //############################//
@@ -101,12 +122,18 @@ typedef	struct	s_equation
 	int			n;
 }				t_equation;
 
+//############################//
+//#          JULIA           #//
+//############################//
 typedef struct	s_julia
 {
 	double	cr;
 	double	ci;
 }				t_julia;
 
+//############################//
+//#         IMAGE            #//
+//############################
 typedef struct		s_img
 {
 	void			*addr;
@@ -124,6 +151,7 @@ typedef struct		s_img
 }					t_img;
 
 	/********** EVENTS ************/
+void	events_handler(t_img *img);
 int	close_window(t_img *img);
 int	zoom(int code, int x, int y, t_img *img);
 int	on_press_button(int code, t_img *img);
@@ -132,7 +160,7 @@ int	on_press_button(int code, t_img *img);
 void    display_julia_fractal(t_img *img);
 void	display_mandelbrot_fractal(t_img *img);
 void	display_burning_ship_fractal(t_img *img);
-int	display_fractal(t_img *img, int ac, char **av);
+int		display_fractal(t_img *img, int ac, char **av);
 void	display_options(void);
 
 	/************ Mlx *************/	
