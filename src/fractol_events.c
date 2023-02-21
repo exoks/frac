@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 22:04:34 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/19 22:17:22 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/21 01:38:50 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
@@ -16,7 +16,6 @@ void	events_handler(t_img *img)
 	mlx_key_hook(img->var->win, on_press_button, img);
 	mlx_mouse_hook(img->var->win, zoom, img);
 	mlx_hook(img->var->win, 17, 0, close_window, img);
-//	mlx_loop_hook(img->var->mlx, loop, img);
 }
 
 int	close_window(t_img *img)
@@ -28,19 +27,19 @@ int	zoom(int code, int x, int y, t_img *img)
 {
 	double	new_xc;
 	double	new_yc;
+	int	i;
 
+	i = -1;
+	while (++i <  1200 * 1200)
+		*((int *) img->addr + i) = 0;
 	img->p->old_xc = -img->p->b + (x * img->p->a / 1200) + img->p->dx;
 	img->p->old_yc = img->p->b - (y * img->p->a / 1200) + img->p->dy;
-	if (img->fractal == BURNING_SHIP)
-		img->p->old_yc = -img->p->old_yc;
 	if (code == SCROLL_DOWN || code == SCROLL_UP)
 	{
-		img->p->a /= 1.3 * (code == 4) +  (1 / 1.4) * (code == 5);
+		img->p->a /= 1.3 * (code == 4) + (1 / 1.4) * (code == 5);
 		img->p->b /= 1.3 * (code == 4) + (1 / 1.3) * (code == 5);
 		new_xc = -img->p->b + (((double) x) * img->p->a / img->w);
 		new_yc = img->p->b - (((double) y) * img->p->a / img->h);
-		if (img->fractal == BURNING_SHIP)
-			new_yc = -new_yc;
 		img->p->dx = img->p->old_xc - new_xc;
 		img->p->dy = img->p->old_yc - new_yc;
 	}
@@ -48,11 +47,10 @@ int	zoom(int code, int x, int y, t_img *img)
 	return (0);
 }
 
-int     on_press_button(int code, t_img *img)
+int	on_press_button(int code, t_img *img)
 {
-	printf("code => %d\n", code);
 	if ((code == J || code == K || code == F || code == D)
-			&& img->fractal == JULIASET)
+		&& img->fractal == JULIASET)
 	{
 		img->julia->cr += 0.01 * ((code == J) - (code == K));
 		img->julia->ci += 0.01 * ((code == F) - (code == D));

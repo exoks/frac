@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:59:22 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/19 22:12:06 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/21 00:28:42 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,24 @@
 # include "mlx.h"
 # include "ft_printf.h"
 # include <stdio.h>
-
+# include <math.h>
 # define INFO "The Mandelbrot set is :|the set of complex numbers c|for which the function|fc(z) = z^2 + c does not di|verge to infinity when|iterated from z = 0."
 # define MENU "====> THIS MENU SHOWS YOU ALL THE AVAILIBLE FRACTALS : "
 # define TITLE "===== (MANDELBROT SET ?) ========== (MANDELBORT FRACTAL) ===="
 # define DEV "==================== (MADE BY OEZZAOU) ======================"
 # define MANDEL "1|_Mandelbrot fractol ====> ./fractal 1"
 # define JULIA "2|_Julia fractol      ====> ./fractal 2 [ARG1] [ARG2] (-2 <= ARG <= 2)"
+# define ABS(A) A * ((A >= 0) - (A < 0))
 
+//#############################//
+//#           Usage           #//
+//#############################//
 # define ITERATIONS "Iterations : "
+# define USAGE "Usage :"
+# define U_ARROWS "Arows       : moving fractal"
+# define U_M_WHEEL "Mouse wheel : zoom in & out"
+# define U_R "R           : reset"
+# define U_ESC "ESC         : exit"
 
 //############################//
 //#         COLORS           #//
@@ -33,7 +42,7 @@
 # define CIAN 0x51F2F2
 # define BLUE 0x0000FF
 # define H 0xE619F9
-
+# define WHITE 0xFFFFFF
 //############################//
 //#         FRACTALS         #//
 //############################//
@@ -138,9 +147,9 @@ typedef struct		s_img
 {
 	void			*addr;
 	void			*img;
-	int				line_len;
+	int				l_len;
 	int				bpp;
-	int				endian;
+	int				edn;
 	int				h;
 	int				w;
 	int				fractal;
@@ -149,6 +158,13 @@ typedef struct		s_img
 	t_complex_plan	*p;
 	t_julia			*julia;
 }					t_img;
+
+typedef struct s_rgb
+{
+	float	r;
+	float	g;
+	float	b;
+}				t_rgb;
 
 	/********** EVENTS ************/
 void	events_handler(t_img *img);
@@ -169,6 +185,7 @@ void	mlx_create_window(t_var *var);
 void	mlx_pixel_put_in_img(t_img *img, int x, int y, int color);
 void    mlx_put_max_iteration(t_img *img);
 
+double	slope(t_img *img);
 int		create_color(int iter);
 double	str2double(char *s);
 

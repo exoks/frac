@@ -6,7 +6,7 @@
 #    By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/28 21:14:18 by oezzaou           #+#    #+#              #
-#    Updated: 2023/02/19 13:08:11 by oezzaou          ###   ########.fr        #
+#    Updated: 2023/02/20 16:09:51 by oezzaou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,25 +26,30 @@ NAME = fractol
 OBJDIR = obj
 SRCDIR = src
 INC = -I include/ -I ft_printf/include -I ft_printf/libft
-SRCS := burning_ship_fractal fractol_events fractol_utils fractol_menu fractals fractol
+SRCS := fractol fractol_menu fractals fractol_events fractol_utils
+SRCB := fractol_bonus fractol_menu_bonus fractals_bonus fractol_events_bonus fractol_utils
 OBJS := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(SRCS)))
+OBJB := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(SRCB)))
 SRCS := $(addprefix $(SRCDIR)/, $(addsuffix .c, $(SRCS)))
+SRCB := $(addprefix $(SRCDIR)/, $(addsuffix .c, $(SRCB)))
+
 LIBFTPRINTF = ft_printf/libftprintf.a
 
 #####################################
 #              RULES                #
 #####################################
 
-all: $(OBJDIR) $(NAME)
+all: $(OBJDIR) $(OBJS) $(NAME)
 
-$(NAME): $(OBJS) $(LIBFTPRINTF) 
-	@$(CC) $(CFLAGS) $(INC) $^ -o $@ $(MLX_FLAGS)
+$(NAME): $(LIBFTPRINTF) 
+	@$(CC) $(CFLAGS) $(INC) $^ $(OBJDIR)/*.o -o $@ $(MLX_FLAGS)
 	@printf "\n%10s===========%10s\n <<<<<<<<<< FRACTOL >>>>>>>>>>\n" " " " "
 	@printf "%10s===========%10s\n" " " " "
 
-$(MLX_LIB):
-	@make -C include/ clean
-	@make -C include/ make
+bonus: $(OBJDIR) $(OBJB) $(NAME)
+
+$(NAME_B): $(OBJB) $(LIBFTPRINTF)
+	@$(CC) $(CFLAGS) $(INC) $^ $(OBJDIR)/*.o -o $@ $(MLX_FLAGS)
 
 $(LIBFTPRINTF):
 	@make -C ft_printf
