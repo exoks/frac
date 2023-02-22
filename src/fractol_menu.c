@@ -6,28 +6,37 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:54:27 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/22 01:54:16 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/22 04:30:02 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
 
 void	display_options(void)
 {
-	ft_printf("%60s\n", "<: FRACTALS :>");
-	ft_printf("%53d\n", 0);
-	ft_printf("%54.4d\n", 0);
-	ft_printf("%55.6d\n", 0);
-	ft_printf("%55.5d\n", 0);
-	ft_printf("%46d%10.9d\n", 0, 0);
-	ft_printf("%43.3d%17.16d\n", 0, 0);
-	ft_printf("%62.20d%3.2d\n", 0, 0);
-	ft_printf("%64.28d\n", 0);
-	ft_printf("%66.31d\n", 0);
-	ft_printf("%67.33d\n", 0);
-	ft_printf("%66.32d\n", 0);
-	ft_printf("%21d%6.5d%40.34d\n", 0, 0, 0);
-//	ft_printf("%25d%6.5d%36.33d\n", 0, 0, 0);
-//	ft_printf("%33d\n", 0);
+	ft_printf("%60s\n", ">> MANDELBROT FRACTAL <<");
+
+	ft_printf("%53d\n%54.4d\n%55.6d\n%55.5d\n", 0, 0, 0, 0);
+//	ft_printf("%54.4d\n", 0);
+//	ft_printf("%55.6d\n", 0);
+//	ft_printf("%55.5d\n", 0);
+	ft_printf("%46d%10.9d\n%43.3d%17.16d\n", 0, 0, 0, 0);
+//	ft_printf("%43.3d%17.16d\n", 0, 0);
+	ft_printf("%62.24d%4.3d\n%64.28d\n%66.31d\n", 0, 0, 0, 0);
+//	ft_printf("%64.28d\n", 0);
+//	ft_printf("%66.31d\n", 0);
+	ft_printf("%67.33d\n%66.32d\n%21d%6.5d%40.34d\n", 0, 0, 0, 0, 0);
+//	ft_printf("%66.32d\n", 0);
+//	ft_printf("%21d%6.5d%40.34d\n", 0, 0, 0);
+	ft_printf("%29.11d%37.34d\n%30.13d%35.33d\n", 0, 0, 0, 0);
+//	ft_printf("%30.13d%35.33d\n", 0, 0);
+	ft_printf("%15.2d%15.14d%35.33d\n", 0, 0, 0);
+	ft_printf("%.63d\n", 0);
+	ft_printf("%15.2d%15.14d%35.33d\n", 0, 0, 0);
+	ft_printf("%30.13d%35.33d\n%29.11d%37.34d\n", 0, 0, 0, 0);
+	ft_printf("%21d%6.5d%40.34d\n%66.32d\n%67.33d\n", 0, 0, 0, 0, 0);
+	ft_printf("%66.31d\n%64.28d\n%62.24d%4.3d\n", 0, 0, 0, 0);
+	ft_printf("%43.3d%17.16d\n%46d%10.9d\n", 0, 0, 0, 0);
+	ft_printf("%55.5d\n%55.6d\n%54.4d\n%53d\n", 0, 0, 0, 0);
 }
 
 void	display_usage_menu(t_img *img)
