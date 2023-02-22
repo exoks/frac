@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:41:35 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/22 00:34:23 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/22 05:41:45 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
@@ -32,8 +32,9 @@ int	display_fractal(t_img *img, int ac, char **av)
 	if (((ac == 2) && str2double(av[1]) == BURNING_SHIP)
 		|| (img->fractal == BURNING_SHIP))
 		display_burning_ship_fractal(img);
-	display_usage_menu(img);
-	return (img->fractal);
+	if (img->fractal >= 1 && img->fractal <= 3)
+		return (display_usage_menu(img), img->fractal);
+	return (0);
 }
 
 void	display_mandelbrot_fractal(t_img *img)

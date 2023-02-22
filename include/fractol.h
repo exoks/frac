@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:59:22 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/22 00:02:20 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/22 05:37:40 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,14 @@
 //############################//
 //#        FRACTLAS          #//
 //############################//
-# define MANDELBROT_FRACTAL "MANDELBROT FRACTAL"
-# define JULIA_FRACTAL "JULIA FRACTAL"
-
+# define TITLE "=> Mandelbrot fractal example :\n"
+# define DEV "<<| Made By OEZZAOU |>>"
+# define SYNTAX "Usage : SYNTAX => ./fractol [ARG1] [ARG2] [ARG3]"
+# define MAN "./fractol 1               => Mandelbrot fractal"
+# define JUL "./fractol 2 [ARG1] [ARG2] => JULIA fractal"
+# define ARG1 "-> -2 <= ARG1 <= 2"
+# define ARG2 "-> -2 <= ARG2 <= 2"
+ 
 //############################//
 //#         ARROWS           #//
 //############################//
