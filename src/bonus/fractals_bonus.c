@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractals.c                                         :+:      :+:    :+:   */
+/*   fractals_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:41:35 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/22 00:39:30 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/22 00:34:23 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
@@ -23,15 +23,17 @@ int	display_fractal(t_img *img, int ac, char **av)
 		{
 			img->julia->cr = str2double(av[2]);
 			img->julia->ci = str2double(av[3]);
-			if (!(img->julia->cr >= -2 && img->julia->cr <= 2)
-				|| !(img->julia->ci >= -2 && img->julia->ci <= 2))
+			if (ac && (!(img->julia->cr >= -2 && img->julia->cr <=2)
+				|| !(img->julia->ci >= -2 && img->julia->ci <= 2)))
 				return (0);
 		}
 		display_julia_fractal(img);
 	}
-	if (img->fractal == JULIASET || img->fractal == MANDELBROT)
-		return (display_usage_menu(img), img->fractal);
-	return (0);
+	if (((ac == 2) && str2double(av[1]) == BURNING_SHIP)
+		|| (img->fractal == BURNING_SHIP))
+		display_burning_ship_fractal(img);
+	display_usage_menu(img);
+	return (img->fractal);
 }
 
 void	display_mandelbrot_fractal(t_img *img)
@@ -54,7 +56,7 @@ void	display_mandelbrot_fractal(t_img *img)
 			z.n = -1;
 			while (++z.n < img->nmax && modul_z(&z.r, &z.i, img) < 4.0)
 				;
-			color = hsv_to_rgb((z.n * 4) % 360, 100, 100);
+			color = hsv_to_rgb((z.n * 6) % 360, 100, 100);
 			mlx_pixel_put_in_img(img, grid.x, grid.y, color);
 			if (z.n == img->nmax)
 				mlx_pixel_put_in_img(img, grid.x, grid.y, 0);
@@ -81,7 +83,7 @@ void	display_julia_fractal(t_img *img)
 			z.n = -1;
 			while (++z.n < img->nmax && modul_z(&z.r, &z.i, img) < 4.0)
 				;
-			color = hsv_to_rgb((z.n * 4) % 360, 100, 100);
+			color = hsv_to_rgb((z.n * 6) % 360, 100, 100);
 			mlx_pixel_put_in_img(img, grid.x, grid.y, color);
 			if (z.n == img->nmax)
 				mlx_pixel_put_in_img(img, grid.x, grid.y, 0);

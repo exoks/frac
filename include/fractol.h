@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:59:22 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/21 00:28:42 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/22 00:02:20 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,7 @@
 # define FRACTOL_H
 # include "mlx.h"
 # include "ft_printf.h"
-# include <stdio.h>
 # include <math.h>
-# define INFO "The Mandelbrot set is :|the set of complex numbers c|for which the function|fc(z) = z^2 + c does not di|verge to infinity when|iterated from z = 0."
-# define MENU "====> THIS MENU SHOWS YOU ALL THE AVAILIBLE FRACTALS : "
-# define TITLE "===== (MANDELBROT SET ?) ========== (MANDELBORT FRACTAL) ===="
-# define DEV "==================== (MADE BY OEZZAOU) ======================"
-# define MANDEL "1|_Mandelbrot fractol ====> ./fractal 1"
-# define JULIA "2|_Julia fractol      ====> ./fractal 2 [ARG1] [ARG2] (-2 <= ARG <= 2)"
 # define ABS(A) A * ((A >= 0) - (A < 0))
 
 //#############################//
@@ -96,6 +89,7 @@ typedef struct s_color
 	int	b;
 	int	h;
 }				t_color;
+
 //############################//
 //#       COMPLEX PLAN       #//
 //############################//
@@ -140,8 +134,8 @@ typedef struct	s_julia
 	double	ci;
 }				t_julia;
 
-//############################//
-//#         IMAGE            #//
+//############################
+//#         IMAGE            #
 //############################
 typedef struct		s_img
 {
@@ -159,6 +153,9 @@ typedef struct		s_img
 	t_julia			*julia;
 }					t_img;
 
+//###############################
+//#            RGB              #
+//###############################
 typedef struct s_rgb
 {
 	float	r;
@@ -183,8 +180,11 @@ void	display_options(void);
 void	mlx_create_image(t_var *var, t_img *img, t_julia *j, t_complex_plan *p);
 void	mlx_create_window(t_var *var);
 void	mlx_pixel_put_in_img(t_img *img, int x, int y, int color);
-void    mlx_put_max_iteration(t_img *img);
+void    display_usage_menu(t_img *img);
+int		hsv_to_rgb(int hue, float saturation, float value);
 
+	/********** Utils *************/
+double	modul_z(double *zr, double *zi, t_img *img);
 double	slope(t_img *img);
 int		create_color(int iter);
 double	str2double(char *s);

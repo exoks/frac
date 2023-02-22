@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol_events.c                                   :+:      :+:    :+:   */
+/*   fractol_events_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 22:04:34 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/02/21 23:35:36 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/02/21 22:33:47 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
-/*
-int	sheft_color(t_img *img)
-{
-	
-}
-*/
+
 void	events_handler(t_img *img)
 {
 	mlx_key_hook(img->var->win, on_press_button, img);
@@ -33,14 +28,18 @@ int	zoom(int code, int x, int y, t_img *img)
 	double	new_xc;
 	double	new_yc;
 
-	img->p->old_xc = -img->p->b + (x * img->p->a / 1200) + img->p->dx;
-	img->p->old_yc = img->p->b - (y * img->p->a / 1200) + img->p->dy;
+	img->p->old_xc = -img->p->b + ((double) x * slope(img)) + img->p->dx;
+	img->p->old_yc = img->p->b - ((double) y * slope(img)) + img->p->dy;
+	if (img->fractal == BURNING_SHIP)
+		img->p->old_yc = -img->p->b + ((double) y * slope(img)) + img->p->dy;
 	if (code == SCROLL_DOWN || code == SCROLL_UP)
 	{
 		img->p->a /= 1.3 * (code == 4) + (1 / 1.4) * (code == 5);
 		img->p->b /= 1.3 * (code == 4) + (1 / 1.3) * (code == 5);
-		new_xc = -img->p->b + (((double) x) * img->p->a / img->w);
-		new_yc = img->p->b - (((double) y) * img->p->a / img->h);
+		new_xc = -img->p->b + (((double) x) * slope(img));
+		new_yc = img->p->b - (((double) y) * slope(img));
+		if (img->fractal == BURNING_SHIP)
+			new_yc *= -1;
 		img->p->dx = img->p->old_xc - new_xc;
 		img->p->dy = img->p->old_yc - new_yc;
 	}
